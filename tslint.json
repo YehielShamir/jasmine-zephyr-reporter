@@ -1,0 +1,12 @@
+{
+    "rules": {
+        "no-string-literal": false,
+
+        "object-literal-shorthand":  false,
+        "no-console": false,
+        "no-unused-expression": false,
+        "no-empty": false,
+        "prefer-for-of": false
+    },
+    "extends": ["tslint:recommended","tslint-config-prettier"]
+}
