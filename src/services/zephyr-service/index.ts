@@ -24,8 +24,8 @@ export default class ZephyrService extends HTTPClient {
             passed: 1,
             failed: 2,
             excluded: 3,
-            pending: 4
-         }
+            pending: 4,
+         },
       };
       this.entitiesType = {
          test: 'SCHEDULE',
@@ -33,7 +33,7 @@ export default class ZephyrService extends HTTPClient {
       };
    }
 
-   //=============================== cycles =============================
+   // =============================== cycles =============================
    /**
     *
     * @param conf CreateCycle
@@ -72,14 +72,22 @@ export default class ZephyrService extends HTTPClient {
 
       try {
          const response = await this.methods.post('/cycle/', data);
-         this.data.cycleId = response.data && response.data['id'] ? response.data['id'] : -1;
+         this.data.cycleId =
+            response.data && response.data['id'] ? response.data['id'] : -1;
       } catch (error) {}
    }
 
    /**  */
    async deleteOldCycles(o: DeleteOldCycles): Promise<void> {
       let cyclesToDelete = [];
-      if (!o || !o.projectId || o.projectId === -1 || !o.config.deleteOldCycle || o.versionId === -1) return;
+      if (
+         !o ||
+         !o.projectId ||
+         o.projectId === -1 ||
+         !o.config.deleteOldCycle ||
+         o.versionId === -1
+      )
+         return;
       if (typeof o.config.deleteOldCycle === 'number') {
          cyclesToDelete.push(o.config.deleteOldCycle);
       }
@@ -291,7 +299,7 @@ type ExecuteTest = {
 };
 
 export type ExecutionBody = {
-   status: string;
+   status: number;
    comment?: any;
 };
 
@@ -302,9 +310,7 @@ type AttachedFile = {
    filesDir: string;
 };
 
-export type Status = Record<'passed' | 'failed' | 'excluded' | 'pending', number>; 
-
-
+export type Status = Record<'passed' | 'failed' | 'excluded' | 'pending', number>;
 
 type Data = {
    cycleId: number;

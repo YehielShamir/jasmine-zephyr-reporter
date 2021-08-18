@@ -8,7 +8,6 @@ const { readdir } = promises;
 
 /** Contains jira api options for `jasmine-zephyr-reporter` */
 export default class JiraService extends HTTPClient {
-
    // Declaration
    public data: Data;
    constructor(config: HttpConfiguration) {
@@ -17,7 +16,7 @@ export default class JiraService extends HTTPClient {
       this.data = {
          projectId: -1,
          versionId: -1,
-         sprintId: -1
+         sprintId: -1,
       };
    }
 

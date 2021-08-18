@@ -1,8 +1,9 @@
 {
   "name": "jasmine-zephyr-reporter",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple library of reporting automation test result to jira's zephyr plugin",
   "main": "index.ts",
+  "types": "types/index.d.ts",
   "scripts": {
     "jasmine": "npx jasmine-ts --config=spec/support/jasmine.json",
     "test": "npx ts-node lib/specs/api/useCase.ts",
@@ -10,7 +11,16 @@
     "format:all": "prettier --write \"src/**/*.ts\" index.ts",
     "lint": "tslint -p tsconfig.json"
   },
-  "keywords": [],
+  "keywords": [
+    "jasmine",
+    "jira",
+    "zephyr",
+    "reporter",
+    "automation",
+    "e2e",
+    "api testing",
+    "unit testing"
+  ],
   "author": "Yehiel Shamir",
   "license": "MIT",
   "dependencies": {
