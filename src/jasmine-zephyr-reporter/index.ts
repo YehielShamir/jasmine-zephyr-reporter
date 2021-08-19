@@ -328,7 +328,7 @@ export default class JasmineZephyrReporter implements jasmine.CustomReporter {
       )
          return;
 
-      const newFilesPath: string | -1 = await this.utils.copyFilesToFolder(
+      const newFilesPath: string | -1 = await this.utils.fs.copyFilesToFolder(
          o.path,
          o.newFoldername
       );

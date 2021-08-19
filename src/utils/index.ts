@@ -1,14 +1,15 @@
-import { existsSync, rmSync, promises } from 'fs';
-import { resolve } from 'path';
 import { Configuration } from '../types';
 import { ActivateConfig } from './configChecker';
+import { FSystem } from './FSystem';
 import { JasmineZephyrReporterError } from './ErrorHandling';
-const { readdir, rename, mkdir } = promises;
 
 export class Utility {
    private ActivateConfig: ActivateConfig;
+   public fs: FSystem;
+
    constructor() {
       this.ActivateConfig = new ActivateConfig();
+      this.fs = new FSystem();
    }
    /**
     *
@@ -64,33 +65,6 @@ export class Utility {
 
    /**
     *
-    * @param path
-    * @param newFolderName
-    * @description Move all files in a giving folder to a new folder
-    * @returns path of the new folder or -1
-    */
-   public async copyFilesToFolder(path: string, newFolderName: string) {
-      if (!existsSync(resolve(path))) return -1;
-      const files = await readdir(resolve(path), { withFileTypes: true });
-      // Filtering only files
-      const filesName: string[] = files
-         .filter((content) => content.isFile())
-         .map((file) => file.name);
-
-      if (filesName.length > 0) {
-         for (const file of filesName) {
-            // Create one
-            if (!existsSync(resolve(path, newFolderName)))
-               await mkdir(resolve(path, newFolderName), { recursive: true });
-            await rename(resolve(path, file), resolve(path, newFolderName, file));
-         }
-         return resolve(path, newFolderName);
-      }
-      return -1;
-   }
-
-   /**
-    *
     * @param config
     * @description activate the `configChecker` methods.
     * exit process if `breakOnBadConnectionKeys` set to true
@@ -104,18 +78,5 @@ export class Utility {
          return false;
       }
       return true;
-   }
-
-   /**
-    *
-    * @param resultDir
-    * @description delete all files in a giving path if exist
-    * @returns void
-    */
-   public deleteOldFiles(resultDir: string): void {
-      const path = resolve(resultDir);
-      if (existsSync(path)) {
-         rmSync(path, { recursive: true, force: true });
-      }
    }
 }
