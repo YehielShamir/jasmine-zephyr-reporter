@@ -12,7 +12,7 @@ function createJasmineZephyrReporter () {
         breakOnBadConnectionKeys: true,
         attachedContentDir: '',
         disable: false,
-        boardID: 0,
+        boardID: 3828, 
         options: {
             cycleCreationConfig: {
                 createNewCycle: {
@@ -30,5 +30,5 @@ function createJasmineZephyrReporter () {
         }
     })
 };
-
 jasmine.getEnv().addReporter(createJasmineZephyrReporter());
+
