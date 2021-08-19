@@ -2,3 +2,4 @@ node_modules/
 *.txt
 TODO
 out/
+symble.ts

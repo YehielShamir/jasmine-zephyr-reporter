@@ -105,17 +105,18 @@ export interface Configuration {
     * The allows files types at the moment are: txt,json,png,zip,video like wmv
     * Path should ba path like this:
     * ```
-    * attachedFileDir: '/out/JZR_attachmentFiles'
+    * attachedContentDir: '/out/JZR_attachmentFiles'
     * ```
-    * If no `attachedFileDir` has mention, screenshot ability will be off
+    * If no `attachedContentDir` has mention, screenshot ability will be off
     */
-   attachedFileDir: string;
+   attachedContentDir: string;
+
    /**
     * The catch part in case of a failure with the request
     * - `ErrorInfo` print out the error with a Error object structure.
     * - `log` print out to the console the error accrue
     * - `silent` will send out at the end of run log file with all the info `jasmine-zephyr-reporter` will collect.
-    *    The log file will be added to the mention dir in `attachedFileDir`. under `JZRResults` folder.
+    *    The log file will be added to the mention dir in `attachedContentDir`. under `JZRResults` folder.
     *    if no dir has been mention, the default will be `out/JZEResults`
     *
     */
@@ -125,6 +126,16 @@ export interface Configuration {
     * More options to config to `jasmine-zephyr-reporter` like `cycleCreation` and so on
     */
    options?: {
+      /**
+       * Whether to delete the local store of the attachedDir at the end of a run
+       * @default true
+       */
+      attachmentDeletionConfig?: {
+         /** @default true */
+         deleteAttachedDirContent: boolean;
+         /** What files or directories to keep alive */
+         except?: string[];
+      };
       /**
        * Whether to run the cycle on a version
        * Version id can be declare in two ways.

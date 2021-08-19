@@ -10,7 +10,7 @@ function createJasmineZephyrReporter () {
         projectIdOrKey: "",
         errorHandling: 'silent',
         breakOnBadConnectionKeys: true,
-        attachedFileDir: '',
+        attachedContentDir: '',
         disable: false,
         boardID: 0,
         options: {

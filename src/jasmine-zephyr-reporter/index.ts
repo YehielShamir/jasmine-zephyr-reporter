@@ -122,6 +122,7 @@ export default class JasmineZephyrReporter implements jasmine.CustomReporter {
    }
    async jasmineDone(runDetails: jasmine.JasmineDoneInfo): Promise<void> {
       if (!this.disable) {
+         await this.deleteAttachedDirContent();
       }
    }
 
@@ -270,12 +271,12 @@ export default class JasmineZephyrReporter implements jasmine.CustomReporter {
          });
 
          if (
-            this.config.attachedFileDir &&
+            this.config.attachedContentDir &&
             this.config.options &&
             this.config.options.stepResultConfig
          ) {
             await this.attachedFiles({
-               path: this.config.attachedFileDir,
+               path: this.config.attachedContentDir,
                state: this.config.options.stepResultConfig.attachment,
                status: this.specsResult[i].status,
                newFoldername: this.specsResult[i].name,
@@ -304,12 +305,12 @@ export default class JasmineZephyrReporter implements jasmine.CustomReporter {
       });
 
       if (
-         this.config.attachedFileDir &&
+         this.config.attachedContentDir &&
          this.config.options &&
          this.config.options.TestResultConfig
       ) {
          await this.attachedFiles({
-            path: this.config.attachedFileDir,
+            path: this.config.attachedContentDir,
             state: this.config.options.TestResultConfig.attachment,
             status: state,
             newFoldername: 'resultDescription1',
@@ -420,6 +421,33 @@ export default class JasmineZephyrReporter implements jasmine.CustomReporter {
 
       // Sorted by the highest
       return store.sort((a, b) => b[1] - a[1])[0][0];
+   }
+
+   /**
+    * @description delete old attached content at the end of jasmine run
+    * @returns void
+    */
+   public async deleteAttachedDirContent() {
+      // Result folder
+      const keepAlive = ['JZRResults'];
+
+      if (this.config.options && this.config.options.attachmentDeletionConfig) {
+         // If deleteAttachedDirContent set to false
+         if (
+            this.config.options.attachmentDeletionConfig.deleteAttachedDirContent ===
+            false
+         ) {
+            return;
+         } else {
+            if (this.config.options.attachmentDeletionConfig.except) {
+               keepAlive.concat(this.config.options.attachmentDeletionConfig.except);
+            }
+            await this.utils.fs.deleteOldContentExcept(
+               this.config.attachedContentDir,
+               keepAlive
+            );
+         }
+      }
    }
 }
 

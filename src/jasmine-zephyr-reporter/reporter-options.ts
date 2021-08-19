@@ -170,12 +170,12 @@ export class ReporterOptions {
          });
 
          if (
-            this.config.attachedFileDir &&
+            this.config.attachedContentDir &&
             this.config.options &&
             this.config.options.stepResultConfig
          ) {
             await this.attachedFiles({
-               path: this.config.attachedFileDir,
+               path: this.config.attachedContentDir,
                state: this.config.options.stepResultConfig.attachment,
                status: specsResult[i].status,
                newFoldername: specsResult[i].name,
@@ -204,12 +204,12 @@ export class ReporterOptions {
       });
 
       if (
-         this.config.attachedFileDir &&
+         this.config.attachedContentDir &&
          this.config.options &&
          this.config.options.TestResultConfig
       ) {
          await this.attachedFiles({
-            path: this.config.attachedFileDir,
+            path: this.config.attachedContentDir,
             state: this.config.options.TestResultConfig.attachment,
             status: state,
             newFoldername: 'resultDescription1',
@@ -320,5 +320,32 @@ export class ReporterOptions {
 
       // Sorted by the highest
       return store.sort((a, b) => b[1] - a[1])[0][0];
+   }
+
+   /**
+    * @description delete old attached content at the end of jasmine run
+    * @returns void
+    */
+   public async deleteAttachedDirContent() {
+      // Result folder
+      const keepAlive = ['JZRResults'];
+
+      if (this.config.options && this.config.options.attachmentDeletionConfig) {
+         // If deleteAttachedDirContent set to false
+         if (
+            this.config.options.attachmentDeletionConfig.deleteAttachedDirContent ===
+            false
+         ) {
+            return;
+         } else {
+            if (this.config.options.attachmentDeletionConfig.except) {
+               keepAlive.concat(this.config.options.attachmentDeletionConfig.except);
+            }
+            await this.utils.fs.deleteOldContentExcept(
+               this.config.attachedContentDir,
+               keepAlive
+            );
+         }
+      }
    }
 }
